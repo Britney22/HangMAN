@@ -6,10 +6,10 @@ namespace Hangman.Core.Game
     public class HangmanGame
     {
         private int _guessCount = 0;
-        private bool _incorrectGuess = true;
-        public bool _correctGuess = false;
+     
+    
         private GallowsRenderer _renderer;
-        private bool _outOfGuesses = false;
+      
         private int _guessLimit = 6;
         public HangmanGame()
         {
@@ -18,6 +18,8 @@ namespace Hangman.Core.Game
 
         public void Run()
         {
+            string correctGuessWord = string.Empty;
+
             Random random = new Random();
 
             string[] wordlist = new string[20] { "hello","word" , "noku" ,"tina"," wife" ," apple","pink", "yellow", " blue" , "white",
@@ -51,32 +53,40 @@ namespace Hangman.Core.Game
                 var nextGuess = char.Parse(Console.ReadLine());
 
                 bool correctGuess = false;
-
-                for (int w = 0; w < secertWord.Length; w++)
                 {
-                    if (nextGuess == secertWord[w])
+                    for (int w = 0; w < secertWord.Length; w++)
                     {
-                        letter[w] = nextGuess;
-                        correctGuess = true;
+                        if (nextGuess == secertWord[w])
+                        {
+                            letter[w] = nextGuess;
+                            correctGuess = true;
 
+                        }
+                    }
+                    if (!correctGuess)
+                    {
+                        _guessLimit--;
                     }
                 }
-                if (!correctGuess)
+                correctGuessWord = new string(letter);
+                if (correctGuessWord==secertWord)
                 {
-                    _guessLimit--;
+                    Console.WriteLine(" You Have Won!");
                 }
+
             }
 
 
-            if (_correctGuess == true)
-            {
-                Console.WriteLine(" You Have Won!");
-            }
-            else
+            if ( correctGuessWord != secertWord)
             {
                 Console.WriteLine(" You Have Lost! The word is {0}", secertWord);
 
             }
+            //else
+            //{
+            //    Console.WriteLine(" You Have Lost! The word is {0}", secertWord);
+
+            //}
 
 
         }
